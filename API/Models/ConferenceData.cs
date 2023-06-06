@@ -1,36 +1,36 @@
-using System.Collections;
+using System.Text.Json;
 
 namespace API.Models
 {
     public class ConferenceData
     {
-        public ConferenceData()
+        public ConferenceData(Stream dataSource)
         {
-
+            var confData = new StreamReader(dataSource).ReadToEnd();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            ConfDetails = JsonSerializer.Deserialize<SpeakerSummary>(confData, options);
         }
 
-        public static List<SpeakerSummary> SpeakerSummary()
+        private SpeakerSummary? ConfDetails { get; init; }
+
+        public List<SpeakerSummary> SpeakerSummary()
         {
-            return new List<SpeakerSummary>() { new SpeakerSummary("Hello", "Here", "reddit") };
+            return new List<SpeakerSummary>() { ConfDetails! };
         }
     }
 
     public class SpeakerSummary
     {
-        public SpeakerSummary(string name, string location, string source)
-        {
-            Name = name;
-            Location = location;
-            Source = source;
-        }
-
-        public string Name { init; get; }
+        public string Name { get; init; }
         public string Location { get; init; }
-        public int Year { get; init;  }
-        public int TotalSpeakers { get; init; }
-        public int NumberOfWomen { get; init; }
-        public string Source { init; get; }
-        public DateOnly DateAdded { get; init; }
+        public string Year { get; init; }
+        public int TotalSpeakers { get; init;}
+        public int NumberOfWomen { get; init;}
+        public string Source { get; init;}
+        public DateOnly DateAdded { get; init;}
         public DateOnly ConfDate { get; init; }
     }
 }
