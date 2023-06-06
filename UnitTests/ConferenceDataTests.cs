@@ -5,7 +5,7 @@ namespace UnitTests;
 
 public class ConferenceDataModelTests
 {
-    private const string ConfData = """
+    private const string SingleConference = """
         [{
             "name": "DevOps Days",
             "location": "Newcastle, Australia",
@@ -18,10 +18,36 @@ public class ConferenceDataModelTests
           }]
         """;
 
+    private const string MultipleConferences = """
+        [
+            {
+                "name": "DevOps Days",
+                "location": "Newcastle, Australia",
+                "year": "2018",
+                "totalSpeakers": 14,
+                "numberOfWomen": 3,
+                "source": "https://devopsdaysnewy.org/speakers/",
+                "dateAdded": "2018-10-25",
+                "confDate": "2018-10-24"
+            },
+            {
+                "name": "RubyConf",
+                "location": "Melbourne, Australia",
+                "year": "2013",
+                "totalSpeakers": 27,
+                "numberOfWomen": 2,
+                "source": "https://rubyconf.org.au/2013/speakers",
+                "dateAdded": "2018-10-01",
+                "confDate": "2013-02-22",
+                "Notes": "Not including lightning talks"
+            }
+        ]
+        """;
+
     [Fact]
-    public void Test_AllConferenceDataIsLoaded()
+    public void Test_SingleConferenceDataIsLoaded()
     {
-        var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes(ConfData));
+        var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes(SingleConference));
         var model = new ConferenceData(stubConfData);
         
         var conferenceData = model.SpeakerSummary();
@@ -35,5 +61,17 @@ public class ConferenceDataModelTests
         Assert.NotNull(speakerSummary.Source);
         Assert.Equal(new DateOnly(2018, 10, 25), speakerSummary.DateAdded);
         Assert.Equal(new DateOnly(2018, 10, 24), speakerSummary.ConfDate);
+    }
+
+    [Fact]
+    public void Test_MultipleConferencesAreLoaded()
+    {
+        var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes(MultipleConferences));
+        var model = new ConferenceData(stubConfData);
+        
+        var conferenceData = model.SpeakerSummary();
+        
+        Assert.Equal(2, conferenceData.Count);
+        Assert.NotEqual(conferenceData[0], conferenceData[1]);
     }
 }
