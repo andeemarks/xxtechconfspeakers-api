@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
-namespace WeatherForecastController.IntegrationTests;
+namespace TechConfSpeakersController.IntegrationTests;
 
 // <snippet1>
-public class WeatherForecastControllerTests
+public class TechConfSpeakersControllerTests
     : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _factory;
 
-    public WeatherForecastControllerTests(WebApplicationFactory<Program> factory)
+    public TechConfSpeakersControllerTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
     }
@@ -29,7 +29,7 @@ public class WeatherForecastControllerTests
     }
 
     [Theory]
-    [InlineData("/WeatherForecast")]
+    [InlineData("/TechConfSpeakers")]
     public async Task Get_MainEndpointEnabled(string url)
     {
         // Arrange
