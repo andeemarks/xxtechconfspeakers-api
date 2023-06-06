@@ -11,14 +11,14 @@ namespace API.Models
             {
                 PropertyNameCaseInsensitive = true
             };
-            ConfDetails = JsonSerializer.Deserialize<SpeakerSummary>(confData, options);
+            ConfDetails = JsonSerializer.Deserialize<List<SpeakerSummary>>(confData, options);
         }
 
-        private SpeakerSummary? ConfDetails { get; init; }
+        private List<SpeakerSummary>? ConfDetails { get; init; }
 
         public List<SpeakerSummary> SpeakerSummary()
         {
-            return new List<SpeakerSummary>() { ConfDetails! };
+            return ConfDetails!;
         }
     }
 

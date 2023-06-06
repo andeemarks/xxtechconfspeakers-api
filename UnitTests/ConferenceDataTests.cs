@@ -6,7 +6,7 @@ namespace UnitTests;
 public class ConferenceDataModelTests
 {
     const string ConfData = """
-        {
+        [{
             "name": "DevOps Days",
             "location": "Newcastle, Australia",
             "year": "2018",
@@ -15,7 +15,7 @@ public class ConferenceDataModelTests
             "source": "https://devopsdaysnewy.org/speakers/",
             "dateAdded": "2018-10-25",
             "confDate": "2018-10-24"
-          }
+          }]
         """;
 
     [Fact]
