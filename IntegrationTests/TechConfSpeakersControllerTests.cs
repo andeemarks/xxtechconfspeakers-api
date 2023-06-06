@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc.Testing;
-using Xunit;
 
 namespace TechConfSpeakersController.IntegrationTests;
 
@@ -32,13 +31,9 @@ public class TechConfSpeakersControllerTests
     [InlineData("/TechConfSpeakers")]
     public async Task Get_MainEndpointEnabled(string url)
     {
-        // Arrange
         var client = _factory.CreateClient();
-
-        // Act
         var response = await client.GetAsync(url);
 
-        // Assert
         response.EnsureSuccessStatusCode();
         Assert.Equal("application/json; charset=utf-8",
             response.Content.Headers.ContentType.ToString());
