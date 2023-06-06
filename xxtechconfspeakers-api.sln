@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xxtechconfspeakers-api", "API\xxtechconfspeakers-api.csproj", "{DD8F4D3D-083C-4454-BBD3-CC191A087731}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{ED593B96-B36D-4E02-9D81-5F18CDDFE060}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{8FDB397B-13E2-4A73-966A-1C3256BCD241}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD8F4D3D-083C-4454-BBD3-CC191A087731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD8F4D3D-083C-4454-BBD3-CC191A087731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD8F4D3D-083C-4454-BBD3-CC191A087731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD8F4D3D-083C-4454-BBD3-CC191A087731}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED593B96-B36D-4E02-9D81-5F18CDDFE060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED593B96-B36D-4E02-9D81-5F18CDDFE060}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED593B96-B36D-4E02-9D81-5F18CDDFE060}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED593B96-B36D-4E02-9D81-5F18CDDFE060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FDB397B-13E2-4A73-966A-1C3256BCD241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FDB397B-13E2-4A73-966A-1C3256BCD241}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FDB397B-13E2-4A73-966A-1C3256BCD241}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FDB397B-13E2-4A73-966A-1C3256BCD241}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
