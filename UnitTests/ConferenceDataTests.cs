@@ -5,7 +5,7 @@ namespace UnitTests;
 
 public class ConferenceDataModelTests
 {
-    const string ConfData = """
+    private const string ConfData = """
         [{
             "name": "DevOps Days",
             "location": "Newcastle, Australia",

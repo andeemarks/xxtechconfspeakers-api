@@ -14,7 +14,7 @@ namespace API.Models
             ConfDetails = JsonSerializer.Deserialize<List<SpeakerSummary>>(confData, options);
         }
 
-        private List<SpeakerSummary>? ConfDetails { get; init; }
+        private List<SpeakerSummary>? ConfDetails { get; }
 
         public List<SpeakerSummary> SpeakerSummary()
         {
@@ -24,12 +24,12 @@ namespace API.Models
 
     public class SpeakerSummary
     {
-        public string Name { get; init; }
-        public string Location { get; init; }
-        public string Year { get; init; }
+        public string? Name { get; set; }
+        public string? Location { get; init; }
+        public string? Year { get; init; }
         public int TotalSpeakers { get; init;}
         public int NumberOfWomen { get; init;}
-        public string Source { get; init;}
+        public string? Source { get; init;}
         public DateOnly DateAdded { get; init;}
         public DateOnly ConfDate { get; init; }
     }
