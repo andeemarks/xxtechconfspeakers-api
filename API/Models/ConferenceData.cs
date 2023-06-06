@@ -32,5 +32,7 @@ namespace API.Models
         public string? Source { get; init;}
         public DateOnly DateAdded { get; init;}
         public DateOnly ConfDate { get; init; }
+        public float DiversityPercentage => (float)NumberOfWomen / TotalSpeakers;
+        public int NumberOfMen => TotalSpeakers - NumberOfWomen;
     }
 }

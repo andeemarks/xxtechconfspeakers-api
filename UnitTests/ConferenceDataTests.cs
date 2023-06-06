@@ -64,14 +64,26 @@ public class ConferenceDataModelTests
     }
 
     [Fact]
-    public void Test_MultipleConferencesAreLoaded()
+    public void Test_DiversityPercentagesAreDerived()
     {
         var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes(MultipleConferences));
         var model = new ConferenceData(stubConfData);
         
         var conferenceData = model.SpeakerSummary();
         
-        Assert.Equal(2, conferenceData.Count);
-        Assert.NotEqual(conferenceData[0], conferenceData[1]);
+        Assert.Equal(0.2142857164144516, conferenceData[0].DiversityPercentage);
+        Assert.Equal(0.074074074625968933, conferenceData[1].DiversityPercentage);
+    }
+    
+    [Fact]
+    public void Test_NumberOfMenAreDerived()
+    {
+        var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes(MultipleConferences));
+        var model = new ConferenceData(stubConfData);
+        
+        var conferenceData = model.SpeakerSummary();
+        
+        Assert.Equal(11, conferenceData[0].NumberOfMen);
+        Assert.Equal(25, conferenceData[1].NumberOfMen);
     }
 }
