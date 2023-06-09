@@ -1,3 +1,4 @@
+using API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace xxtechconfspeakers_api.Controllers;
@@ -6,27 +7,21 @@ namespace xxtechconfspeakers_api.Controllers;
 [Route("[controller]")]
 public class TechConfSpeakersController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
+    // ReSharper disable once NotAccessedField.Local
     private readonly ILogger<TechConfSpeakersController> _logger;
+    private readonly IWebHostEnvironment _hostingEnvironment;
 
-    public TechConfSpeakersController(ILogger<TechConfSpeakersController> logger)
+    public TechConfSpeakersController(ILogger<TechConfSpeakersController> logger, IWebHostEnvironment hostingEnvironment)
     {
+        _hostingEnvironment = hostingEnvironment;
         _logger = logger;
     }
 
     [HttpGet(Name = "Get")]
-    public IEnumerable<WeatherForecast> Get()
+    public IEnumerable<SpeakerSummary> Get()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
+        var dataPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Data");
+        
+        return new ConferenceData(dataPath).SpeakerSummary();
     }
 }

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace TechConfSpeakersController.IntegrationTests;
+namespace IntegrationTests;
 
 // <snippet1>
 public class TechConfSpeakersControllerTests
@@ -36,6 +36,6 @@ public class TechConfSpeakersControllerTests
 
         response.EnsureSuccessStatusCode();
         Assert.Equal("application/json; charset=utf-8",
-            response.Content.Headers.ContentType.ToString());
+            response.Content.Headers.ContentType!.ToString());
     }
 }

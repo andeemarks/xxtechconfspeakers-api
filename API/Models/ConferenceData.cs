@@ -14,6 +14,16 @@ namespace API.Models
             ConfDetails = JsonSerializer.Deserialize<List<SpeakerSummary>>(confData, options);
         }
 
+        public ConferenceData(string dataSourcePath)
+        {
+            var confData = new StreamReader(new FileStream(dataSourcePath + "/confs.json", new FileStreamOptions())).ReadToEnd();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            ConfDetails = JsonSerializer.Deserialize<List<SpeakerSummary>>(confData, options);
+        }
+
         private List<SpeakerSummary>? ConfDetails { get; }
 
         public List<SpeakerSummary> SpeakerSummary()
