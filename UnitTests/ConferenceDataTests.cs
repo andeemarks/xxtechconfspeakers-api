@@ -6,7 +6,7 @@ namespace UnitTests;
 public class ConferenceDataModelTests
 {
     private const string SingleConference = """
-        [{
+        {
             "name": "DevOps Days",
             "location": "Newcastle, Australia",
             "year": "2018",
@@ -15,7 +15,21 @@ public class ConferenceDataModelTests
             "source": "https://devopsdaysnewy.org/speakers/",
             "dateAdded": "2018-10-25",
             "confDate": "2018-10-24"
-          }]
+          }
+        """;
+
+    private const string SingleConferenceWithExtraFields = """
+        {
+            "name": "DevOps Days",
+            "location": "Newcastle, Australia",
+            "year": "2018",
+            "totalSpeakers": 14,
+            "numberOfWomen": 3,
+            "source": "https://devopsdaysnewy.org/speakers/",
+            "dateAdded": "2018-10-25",
+            "confDate": "2018-10-24",
+            "lunchLineMaxLength": 100
+          }
         """;
 
     private const string MultipleConferences = """
@@ -47,12 +61,48 @@ public class ConferenceDataModelTests
     [Fact]
     public void Test_SingleConferenceDataIsLoaded()
     {
-        var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes(SingleConference));
-        var model = new ConferenceData(stubConfData);
+        var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes($"[{SingleConference}]"));
+
+        var conferenceData = new ConferenceData(stubConfData).SpeakerSummary();
+
+        AssertSingleConfFields(conferenceData[0]);
+    }
+    [Fact]
+    public void Test_MultipleConferencesAreLoaded()
+    {
+        var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes(MultipleConferences));
+
+        var conferenceData = new ConferenceData(stubConfData).SpeakerSummary();
         
-        var conferenceData = model.SpeakerSummary();
+        Assert.Equal(2, conferenceData.Count);
+        Assert.NotEqual(conferenceData[0], conferenceData[1]);
+    }
+    
+    [Fact]
+    public void Test_UnexpectedFieldsAreIgnored()
+    {
+        var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes($"[{SingleConferenceWithExtraFields}]"));
+
+        var conferenceData = new ConferenceData(stubConfData).SpeakerSummary();
+
+        AssertSingleConfFields(conferenceData[0]);
+    }
+
+    [Fact]
+    public void Test_DerivedFieldsAreCalculatedCorrectly()
+    {
+        var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes(MultipleConferences));
+
+        var conferenceData = new ConferenceData(stubConfData).SpeakerSummary();
         
-        var speakerSummary = conferenceData[0];
+        AssertDiversityPercentageCalc(conferenceData[0]);
+        AssertDiversityPercentageCalc(conferenceData[1]);
+        AssertNumberOfMenCalc(conferenceData[0]);
+        AssertNumberOfMenCalc(conferenceData[1]);
+    }
+
+    private static void AssertSingleConfFields(SpeakerSummary speakerSummary)
+    {
         Assert.Equal("DevOps Days", speakerSummary.Name);
         Assert.Equal("Newcastle, Australia", speakerSummary.Location);
         Assert.Equal("2018", speakerSummary.Year);
@@ -63,27 +113,14 @@ public class ConferenceDataModelTests
         Assert.Equal(new DateOnly(2018, 10, 24), speakerSummary.ConfDate);
     }
 
-    [Fact]
-    public void Test_DiversityPercentagesAreDerived()
+    private static void AssertNumberOfMenCalc(SpeakerSummary conferenceData)
     {
-        var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes(MultipleConferences));
-        var model = new ConferenceData(stubConfData);
-        
-        var conferenceData = model.SpeakerSummary();
-        
-        Assert.Equal(0.2142857164144516, conferenceData[0].DiversityPercentage);
-        Assert.Equal(0.074074074625968933, conferenceData[1].DiversityPercentage);
+        Assert.Equal(conferenceData.TotalSpeakers - conferenceData.NumberOfWomen, conferenceData.NumberOfMen);
     }
-    
-    [Fact]
-    public void Test_NumberOfMenAreDerived()
+
+    private static void AssertDiversityPercentageCalc(SpeakerSummary conferenceData)
     {
-        var stubConfData = new MemoryStream(Encoding.UTF8.GetBytes(MultipleConferences));
-        var model = new ConferenceData(stubConfData);
-        
-        var conferenceData = model.SpeakerSummary();
-        
-        Assert.Equal(11, conferenceData[0].NumberOfMen);
-        Assert.Equal(25, conferenceData[1].NumberOfMen);
+        Assert.Equal(conferenceData.NumberOfWomen / (float)conferenceData.TotalSpeakers,
+            conferenceData.DiversityPercentage);
     }
 }
