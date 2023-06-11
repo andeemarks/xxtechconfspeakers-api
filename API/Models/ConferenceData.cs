@@ -32,11 +32,11 @@ namespace API.Models
 
     public class SpeakerSummary : IEquatable<SpeakerSummary>
     {
-        public string? Name { get; set; }
+        public string? Name { get; init; }
         public string? Location { get; init; }
         public string? Year { get; init; }
-        public int TotalSpeakers { get; set;}
-        public int NumberOfWomen { get; set;}
+        public int TotalSpeakers { get; init;}
+        public int NumberOfWomen { get; init;}
         public string? Source { get; init;}
         public DateOnly DateAdded { get; set;}
         public DateOnly ConfDate { get; init; }

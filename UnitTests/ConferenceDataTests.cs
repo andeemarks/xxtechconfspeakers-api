@@ -20,15 +20,15 @@ public class ConferenceDataModelTests
           }
         """;
 
-    private static SpeakerSummary BaseConf()
+    private static SpeakerSummary BaseConf(int totalSpeakers = 14, int numberOfWomen = 3)
     {
         return new SpeakerSummary
         {
             Name = "DevOps Days",
             Location = "Newcastle, Australia",
             Year = "2018",
-            TotalSpeakers = 14,
-            NumberOfWomen = 3,
+            TotalSpeakers = totalSpeakers,
+            NumberOfWomen = numberOfWomen,
             Source = "https://devopsdaysnewy.org/speakers/",
             DateAdded = new DateOnly(2018, 10, 25),
             ConfDate = new DateOnly(2018, 10, 24),
@@ -37,17 +37,13 @@ public class ConferenceDataModelTests
 
     private static string ConfWith(int totalSpeakers = 14, int numberOfWomen = 3)
     {
-        var data = BaseConf();
-        data.TotalSpeakers = totalSpeakers;
-        data.NumberOfWomen = numberOfWomen;
-        
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
             AllowTrailingCommas = true
         };
 
-        return JsonSerializer.Serialize(data, options);
+        return JsonSerializer.Serialize(BaseConf(totalSpeakers, numberOfWomen), options);
     }
 
     private static string ConfAddedOn(DateOnly dateAdded)
