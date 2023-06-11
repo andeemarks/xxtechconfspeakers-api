@@ -38,6 +38,11 @@ namespace API.Models
         {
             return ConfDetails!.Average(conf => conf.DiversityPercentage);
         }
+
+        public int TotalConferencesTracked()
+        {
+            return ConfDetails!.Count;
+        }
     }
 
     public class SpeakerSummary : IEquatable<SpeakerSummary>

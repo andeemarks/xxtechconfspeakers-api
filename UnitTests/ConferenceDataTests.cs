@@ -149,6 +149,24 @@ public class ConferenceDataModelTests
     }
 
     [Fact]
+    public void test_TotalConferencesTracked()
+    {
+        var confs = new List<string>()
+        {
+            ConfOn(new DateOnly(2020, 10, 20)), 
+            ConfOn(new DateOnly(2018, 10, 20)), 
+            ConfOn(new DateOnly(2019, 10, 20)),
+            ConfOn(new DateOnly(2019, 1, 20)),
+            ConfOn(new DateOnly(2021, 10, 20))
+        };
+        var confData = ConfStreamFrom($"[{confs[0]}, {confs[1]}, {confs[2]}, {confs[3]}, {confs[4]}]");
+ 
+        var conferencesTracked = new ConferenceData(confData).TotalConferencesTracked();
+        
+        Assert.Equal(5, conferencesTracked);
+    }
+    
+    [Fact]
     public void test_AverageDiversityPercentage()
     {
         var confs = new List<string>()
