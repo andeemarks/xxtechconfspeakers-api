@@ -102,11 +102,12 @@ public class ConferenceDataModelTests
     [Fact]
     public void Test_MostRecentAddedConferenceIsAvailable()
     {
-        var stubConfData = ConfStreamFrom($"[{ConfAddedOn(new DateOnly(2018, 10, 25))}, {ConfAddedOn(new DateOnly(2018, 10, 24))}]");
+        var mostRecentConfData = new DateOnly(2018, 10, 25);
+        var stubConfData = ConfStreamFrom($"[{ConfAddedOn(mostRecentConfData)}, {ConfAddedOn(mostRecentConfData.AddDays(-1))}]");
  
         var mostRecentlyAdded = new ConferenceData(stubConfData).MostRecentlyAdded();
         
-        Assert.Equal(new DateOnly(2018, 10, 25), mostRecentlyAdded.DateAdded);
+        Assert.Equal(mostRecentConfData, mostRecentlyAdded.DateAdded);
     }
 
     private static MemoryStream ConfStreamFrom(string confData)
