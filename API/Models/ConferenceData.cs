@@ -33,6 +33,11 @@ namespace API.Models
         {
             return ConfDetails!.FindAll(conf => conf.ConfDate.Year == year);
         }
+
+        public double AverageDiversityPercentage()
+        {
+            return ConfDetails!.Average(conf => conf.DiversityPercentage);
+        }
     }
 
     public class SpeakerSummary : IEquatable<SpeakerSummary>

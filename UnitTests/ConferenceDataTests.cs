@@ -147,6 +147,23 @@ public class ConferenceDataModelTests
         Assert.Equal(2019, confsOnYear[1].ConfDate.Year);
         
     }
+
+    [Fact]
+    public void test_AverageDiversityPercentage()
+    {
+        var confs = new List<string>()
+        {
+            ConfWith(8, 2), 
+            ConfWith(20, 5), 
+            ConfWith(8, 6), 
+            ConfWith(40, 30), 
+        };
+        var confData = ConfStreamFrom($"[{confs[0]}, {confs[1]}, {confs[2]}, {confs[3]}]");
+ 
+        var averageDiversityPercentage = new ConferenceData(confData).AverageDiversityPercentage();
+        
+        Assert.Equal(0.5, averageDiversityPercentage);
+    }
     
     private static MemoryStream ConfStreamFrom(string confData)
     {
