@@ -5,13 +5,13 @@ namespace xxtechconfspeakers_api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TechConfSpeakersController : ControllerBase
+public class TechConfSummaryController : ControllerBase
 {
     // ReSharper disable once NotAccessedField.Local
-    private readonly ILogger<TechConfSpeakersController> _logger;
+    private readonly ILogger<TechConfSummaryController> _logger;
     private readonly ConferenceData _conferenceData;
 
-    public TechConfSpeakersController(ILogger<TechConfSpeakersController> logger, IWebHostEnvironment hostingEnvironment)
+    public TechConfSummaryController(ILogger<TechConfSummaryController> logger, IWebHostEnvironment hostingEnvironment)
     {
         _logger = logger;
         
@@ -19,9 +19,9 @@ public class TechConfSpeakersController : ControllerBase
         _conferenceData = new ConferenceData(dataPath);
     }
 
-    [HttpGet(Name = "GetDetail")]
-    public IEnumerable<SpeakerSummary> Get()
+    [HttpGet(Name = "GetSummary")]
+    public double Get()
     {
-        return _conferenceData.SpeakerSummary();
+        return _conferenceData.AverageDiversityPercentage();
     }
 }
