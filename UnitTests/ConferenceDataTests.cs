@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Json;
 using API.Models;
@@ -103,9 +104,17 @@ public class ConferenceDataModelTests
     public void Test_MostRecentAddedConferenceIsAvailable()
     {
         var mostRecentConfData = new DateOnly(2018, 10, 25);
-        var stubConfData = ConfStreamFrom($"[{ConfAddedOn(mostRecentConfData)}, {ConfAddedOn(mostRecentConfData.AddDays(-1))}]");
+
+        var confs = new List<string>()
+        {
+            ConfAddedOn(mostRecentConfData.AddDays(-1)), 
+            ConfAddedOn(mostRecentConfData.AddMonths(-1)), 
+            ConfAddedOn(mostRecentConfData)
+        };
+        var shuffledConfs = confs.OrderBy(conf => Guid.NewGuid()).ToList();
+        var confData = ConfStreamFrom($"[{shuffledConfs[0]}, {shuffledConfs[1]}, {shuffledConfs[2]}]");
  
-        var mostRecentlyAdded = new ConferenceData(stubConfData).MostRecentlyAdded();
+        var mostRecentlyAdded = new ConferenceData(confData).MostRecentlyAdded();
         
         Assert.Equal(mostRecentConfData, mostRecentlyAdded.DateAdded);
     }

@@ -26,7 +26,7 @@ namespace API.Models
 
         public SpeakerSummary MostRecentlyAdded()
         {
-            return ConfDetails![0];
+            return ConfDetails!.OrderBy(conf => conf.DateAdded).ToList().Last();
         }
     }
 
