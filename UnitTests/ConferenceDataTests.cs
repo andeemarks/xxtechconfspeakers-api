@@ -88,17 +88,18 @@ public class ConferenceDataModelTests
         Assert.Equal(BaseConf(),conferenceData[0]);
     }
 
-    [Fact]
-    public void Test_DerivedFieldsAreCalculatedCorrectly()
+    [Theory]
+    [InlineData(27, 2)]
+    [InlineData(9, 0)]
+    [InlineData(14, 3)]
+    public void Test_DerivedFieldsAreCalculatedCorrectly(int totalSpeakers, int numberOfWomen)
     {
-        var stubConfData = ConfStreamFrom($"[{ConfWith(27, 2)}, {ConfWith(14, 3)}]");
+        var stubConfData = ConfStreamFrom($"[{ConfWith(totalSpeakers, numberOfWomen)}]");
 
-        var conferenceData = new ConferenceData(stubConfData).SpeakerSummary();
+        var conferenceData = new ConferenceData(stubConfData).SpeakerSummary()[0];
         
-        AssertDiversityPercentageCalc(conferenceData[0]);
-        AssertDiversityPercentageCalc(conferenceData[1]);
-        AssertNumberOfMenCalc(conferenceData[0]);
-        AssertNumberOfMenCalc(conferenceData[1]);
+        AssertDiversityPercentageCalc(conferenceData);
+        AssertNumberOfMenCalc(conferenceData);
     }
 
     [Fact]
