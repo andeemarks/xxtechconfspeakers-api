@@ -98,8 +98,9 @@ public class ConferenceDataModelTests
 
         var conferenceData = new ConferenceData(stubConfData).SpeakerSummary()[0];
         
-        AssertDiversityPercentageCalc(conferenceData);
-        AssertNumberOfMenCalc(conferenceData);
+        Assert.Equal(conferenceData.NumberOfWomen / (float)conferenceData.TotalSpeakers,
+            conferenceData.DiversityPercentage);
+        Assert.Equal(conferenceData.TotalSpeakers - conferenceData.NumberOfWomen, conferenceData.NumberOfMen);
     }
 
     [Fact]
@@ -115,16 +116,5 @@ public class ConferenceDataModelTests
     private static MemoryStream ConfStreamFrom(string confData)
     {
         return new MemoryStream(Encoding.UTF8.GetBytes(confData));
-    }
-
-    private static void AssertNumberOfMenCalc(SpeakerSummary conferenceData)
-    {
-        Assert.Equal(conferenceData.TotalSpeakers - conferenceData.NumberOfWomen, conferenceData.NumberOfMen);
-    }
-
-    private static void AssertDiversityPercentageCalc(SpeakerSummary conferenceData)
-    {
-        Assert.Equal(conferenceData.NumberOfWomen / (float)conferenceData.TotalSpeakers,
-            conferenceData.DiversityPercentage);
     }
 }
