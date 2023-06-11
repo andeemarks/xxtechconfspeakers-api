@@ -9,7 +9,8 @@ namespace API.Models
             var confData = new StreamReader(dataSource).ReadToEnd();
             var options = new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true
+                PropertyNameCaseInsensitive = true,
+                AllowTrailingCommas = true
             };
             ConfDetails = JsonSerializer.Deserialize<List<SpeakerSummary>>(confData, options);
         }
@@ -22,6 +23,11 @@ namespace API.Models
         {
             return ConfDetails!;
         }
+
+        public SpeakerSummary MostRecentlyAdded()
+        {
+            return ConfDetails![0];
+        }
     }
 
     public class SpeakerSummary
@@ -29,10 +35,10 @@ namespace API.Models
         public string? Name { get; set; }
         public string? Location { get; init; }
         public string? Year { get; init; }
-        public int TotalSpeakers { get; init;}
-        public int NumberOfWomen { get; init;}
+        public int TotalSpeakers { get; set;}
+        public int NumberOfWomen { get; set;}
         public string? Source { get; init;}
-        public DateOnly DateAdded { get; init;}
+        public DateOnly DateAdded { get; set;}
         public DateOnly ConfDate { get; init; }
         public float DiversityPercentage => (float)NumberOfWomen / TotalSpeakers;
         public int NumberOfMen => TotalSpeakers - NumberOfWomen;
