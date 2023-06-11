@@ -30,7 +30,7 @@ namespace API.Models
         }
     }
 
-    public class SpeakerSummary
+    public class SpeakerSummary : IEquatable<SpeakerSummary>
     {
         public string? Name { get; set; }
         public string? Location { get; init; }
@@ -42,5 +42,24 @@ namespace API.Models
         public DateOnly ConfDate { get; init; }
         public float DiversityPercentage => (float)NumberOfWomen / TotalSpeakers;
         public int NumberOfMen => TotalSpeakers - NumberOfWomen;
+
+        public bool Equals(SpeakerSummary? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Name == other.Name && Location == other.Location && Year == other.Year && TotalSpeakers == other.TotalSpeakers && NumberOfWomen == other.NumberOfWomen && Source == other.Source && DateAdded.Equals(other.DateAdded) && ConfDate.Equals(other.ConfDate);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == this.GetType() && Equals((SpeakerSummary)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Location, Year, TotalSpeakers, NumberOfWomen, Source, DateAdded, ConfDate);
+        }
     }
 }

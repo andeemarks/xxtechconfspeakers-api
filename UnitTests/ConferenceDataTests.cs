@@ -20,33 +20,6 @@ public class ConferenceDataModelTests
           }
         """;
 
-    private const string MultipleConferences = """
-        [
-            {
-                "name": "RubyConf",
-                "location": "Melbourne, Australia",
-                "year": "2013",
-                "totalSpeakers": 27,
-                "numberOfWomen": 2,
-                "source": "https://rubyconf.org.au/2013/speakers",
-                "dateAdded": "2018-10-01",
-                "confDate": "2013-02-22",
-                "Notes": "Not including lightning talks"
-            },
-            {
-                "name": "DevOps Days",
-                "location": "Newcastle, Australia",
-                "year": "2018",
-                "totalSpeakers": 14,
-                "numberOfWomen": 3,
-                "source": "https://devopsdaysnewy.org/speakers/",
-                "dateAdded": "2018-10-25",
-                "confDate": "2018-10-24"
-            },
-
-        ]
-        """;
-
     private static SpeakerSummary BaseConf()
     {
         return new SpeakerSummary
@@ -92,12 +65,12 @@ public class ConferenceDataModelTests
 
         var conferenceData = new ConferenceData(stubConfData).SpeakerSummary();
 
-        AssertSingleConfFields(conferenceData[0]);
+        Assert.Equal(BaseConf(),conferenceData[0]);
     }
     [Fact]
     public void Test_MultipleConferencesAreLoaded()
     {
-        var stubConfData = ConfStreamFrom($"[{ConfWith()}, {ConfWith()}]");
+        var stubConfData = ConfStreamFrom($"[{ConfWith()}, {ConfWith(11, 4)}]");
 
         var conferenceData = new ConferenceData(stubConfData).SpeakerSummary();
         
@@ -112,7 +85,7 @@ public class ConferenceDataModelTests
 
         var conferenceData = new ConferenceData(stubConfData).SpeakerSummary();
 
-        AssertSingleConfFields(conferenceData[0]);
+        Assert.Equal(BaseConf(),conferenceData[0]);
     }
 
     [Fact]
@@ -141,18 +114,6 @@ public class ConferenceDataModelTests
     private static MemoryStream ConfStreamFrom(string confData)
     {
         return new MemoryStream(Encoding.UTF8.GetBytes(confData));
-    }
-    
-    private static void AssertSingleConfFields(SpeakerSummary speakerSummary)
-    {
-        Assert.Equal("DevOps Days", speakerSummary.Name);
-        Assert.Equal("Newcastle, Australia", speakerSummary.Location);
-        Assert.Equal("2018", speakerSummary.Year);
-        Assert.Equal(14, speakerSummary.TotalSpeakers);
-        Assert.Equal(3, speakerSummary.NumberOfWomen);
-        Assert.NotNull(speakerSummary.Source);
-        Assert.Equal(new DateOnly(2018, 10, 25), speakerSummary.DateAdded);
-        Assert.Equal(new DateOnly(2018, 10, 24), speakerSummary.ConfDate);
     }
 
     private static void AssertNumberOfMenCalc(SpeakerSummary conferenceData)
