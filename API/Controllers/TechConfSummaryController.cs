@@ -20,8 +20,13 @@ public class TechConfSummaryController : ControllerBase
     }
 
     [HttpGet(Name = "GetSummary")]
-    public double Get()
+    public Dictionary<string, object> Get()
     {
-        return _conferenceData.AverageDiversityPercentage();
+        return new Dictionary<string, object>()
+        {
+            {"averageDiversityPercentage", _conferenceData.AverageDiversityPercentage()},
+            {"mostRecentlyAdded", _conferenceData.MostRecentlyAdded()},
+            {"totalConferencesTracked", _conferenceData.TotalConferencesTracked()},
+        };
     }
 }
