@@ -13,26 +13,24 @@ public class TechConfSpeakersControllerTests
         _factory = factory;
     }
 
-    [Theory]
-    [InlineData("/swagger")]
-    public async Task Get_SwaggerEndpointEnabled(string url)
+    [Fact]
+    public async Task Get_SwaggerEndpointEnabled()
     {
         // Arrange
         var client = _factory.CreateClient();
 
         // Act
-        var response = await client.GetAsync(url);
+        var response = await client.GetAsync("/swagger");
 
         // Assert
         response.EnsureSuccessStatusCode();
     }
 
-    [Theory]
-    [InlineData("/TechConfSpeakers")]
-    public async Task Get_MainEndpointEnabled(string url)
+    [Fact]
+    public async Task Get_MainEndpointEnabled()
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync(url);
+        var response = await client.GetAsync("/TechConfSpeakers");
 
         response.EnsureSuccessStatusCode();
         Assert.Equal("application/json; charset=utf-8",

@@ -13,12 +13,11 @@ public class TechConfSummaryControllerTests
         _factory = factory;
     }
 
-    [Theory]
-    [InlineData("/TechConfSummary")]
-    public async Task Get_MainEndpointEnabled(string url)
+    [Fact]
+    public async Task Get_MainEndpointEnabled()
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync(url);
+        var response = await client.GetAsync("/TechConfSummary");
 
         response.EnsureSuccessStatusCode();
         Assert.Equal("application/json; charset=utf-8",
