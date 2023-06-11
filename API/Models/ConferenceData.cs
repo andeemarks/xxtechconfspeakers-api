@@ -28,6 +28,11 @@ namespace API.Models
         {
             return ConfDetails!.OrderBy(conf => conf.DateAdded).ToList().Last();
         }
+
+        public List<SpeakerSummary> ConfsOnYear(int year)
+        {
+            return ConfDetails!.FindAll(conf => conf.ConfDate.Year == year);
+        }
     }
 
     public class SpeakerSummary : IEquatable<SpeakerSummary>
@@ -39,7 +44,7 @@ namespace API.Models
         public int NumberOfWomen { get; init;}
         public string? Source { get; init;}
         public DateOnly DateAdded { get; set;}
-        public DateOnly ConfDate { get; init; }
+        public DateOnly ConfDate { get; set; }
         public float DiversityPercentage => (float)NumberOfWomen / TotalSpeakers;
         public int NumberOfMen => TotalSpeakers - NumberOfWomen;
 

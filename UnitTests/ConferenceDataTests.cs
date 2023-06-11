@@ -55,6 +55,14 @@ public class ConferenceDataModelTests
         return JsonSerializer.Serialize(data);
     }
 
+    private static string ConfOn(DateOnly confDate)
+    {
+        var data = BaseConf();
+        data.ConfDate = confDate;
+
+        return JsonSerializer.Serialize(data);
+    }
+    
     [Fact]
     public void Test_SingleConferenceDataIsLoaded()
     {
@@ -119,6 +127,27 @@ public class ConferenceDataModelTests
         Assert.Equal(mostRecentConfData, mostRecentlyAdded.DateAdded);
     }
 
+    [Fact]
+    public void test_FindConfsForYear()
+    {
+        var confs = new List<string>()
+        {
+            ConfOn(new DateOnly(2020, 10, 20)), 
+            ConfOn(new DateOnly(2018, 10, 20)), 
+            ConfOn(new DateOnly(2019, 10, 20)),
+            ConfOn(new DateOnly(2019, 1, 20)),
+            ConfOn(new DateOnly(2021, 10, 20))
+        };
+        var confData = ConfStreamFrom($"[{confs[0]}, {confs[1]}, {confs[2]}, {confs[3]}, {confs[4]}]");
+ 
+        var confsOnYear = new ConferenceData(confData).ConfsOnYear(2019);
+        
+        Assert.Equal(2, confsOnYear.Count);
+        Assert.Equal(2019, confsOnYear[0].ConfDate.Year);
+        Assert.Equal(2019, confsOnYear[1].ConfDate.Year);
+        
+    }
+    
     private static MemoryStream ConfStreamFrom(string confData)
     {
         return new MemoryStream(Encoding.UTF8.GetBytes(confData));
