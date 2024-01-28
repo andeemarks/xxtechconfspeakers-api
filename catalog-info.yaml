@@ -4,6 +4,9 @@ metadata:
   name: xxtechconfspeakers-api
   annotations:
     github.com/project-slug: andeemarks/xxtechconfspeakers-api
+  tags:
+  - csharp
+  - asp.net
 spec:
   type: openapi
   lifecycle: production
